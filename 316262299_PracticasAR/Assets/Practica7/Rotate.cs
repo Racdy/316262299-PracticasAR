@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
+using Vuforia;
 
 public class Rotate : MonoBehaviour
 {
-     private bool mRotate = true;
+    public Camera cameraAR;  
+    private bool mRotate = true;
     // Start is called before the first frame update
     void Start()
     {
-        
+        cameraAR = VuforiaBehaviour.Instance.GetComponent<Camera>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (mRotate)
         {
@@ -21,11 +24,16 @@ public class Rotate : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
+
             foreach (Touch touch in Input.touches)
             {
                 if (touch.phase == TouchPhase.Began)
                 {
-                    mRotate = !mRotate;
+                    Ray ray = cameraAR.ScreenPointToRay(Input.GetTouch(0).position);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit)) {
+                        mRotate = !mRotate;
+                    }
                 }
             }
         }
