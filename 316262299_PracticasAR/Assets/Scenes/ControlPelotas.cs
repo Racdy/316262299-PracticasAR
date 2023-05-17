@@ -5,6 +5,7 @@ using UnityEngine;
 public class ControlPelotas : MonoBehaviour
 {
     public GameObject pelotas;
+    public GameObject prePelota;
     public Transform posicionInicial;
     // Start is called before the first frame update
     void Start()
@@ -15,8 +16,8 @@ public class ControlPelotas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace)){
-            Instantiate(pelotas, posicionInicial);
+        if(pelotas == null){
+            pelotas = Instantiate(prePelota, posicionInicial) as GameObject;
         }
     }
 }
